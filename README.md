@@ -1,7 +1,8 @@
 messageFerry
 ============
 
-A simple application to help us test and simulate our message ferrying routing code.
+A simple application to help us test and simulate our message ferrying
+routing code.
 
 Keyboard Shortcuts:
 n - add a static node
