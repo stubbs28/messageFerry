@@ -121,6 +121,5 @@ public class Message {
 		for(int i = 6; i < strs.length - 1; i++)
 			content += strs[i] + ", ";
 		content += strs[strs.length - 1];
-		System.out.println(content);
 	}
 }

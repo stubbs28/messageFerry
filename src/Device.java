@@ -294,7 +294,7 @@ public class Device {
 
 	private void processMessage(Message message) {
 		displayMessage = "Recieved: " + message.getContent();
-		System.out.println("Device " + number + " recieved: " + message.getContent());
+		//System.out.println("Device " + number + " recieved: " + message.getContent());
 		clearCount = CLEAR_TIMER;
 	}
 	

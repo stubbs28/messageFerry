@@ -181,8 +181,6 @@ public class Board extends JPanel implements MouseListener, KeyListener
 					((devices.get(key).getLocation().y + 1) * G_HEIGHT) - 5);
 		}
 		
-		System.out.println(tableInfo);
-		
 		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.fillRect(B_WIDTH, 0, B_WIDTH + TABLE_WIDTH, B_HEIGHT);
 		g2d.setColor(Color.BLACK);
