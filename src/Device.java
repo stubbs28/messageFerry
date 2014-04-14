@@ -36,7 +36,7 @@ public class Device {
 		sendQueue = new ArrayList<Message>();
 		resendQueue = new ArrayList<Message>();
 		routingTable = new HashMap<Integer, TableEntry>();
-		routingTable.put(number, new TableEntry(number, 0, number));
+		routingTable.put(number, new TableEntry(number, 0, number, isMobile()));
 	}
 	
 	
@@ -149,7 +149,7 @@ public class Device {
 	{
 		String rip = "";
 		for(Integer netID: routingTable.keySet())
-			rip += routingTable.get(netID).getRIP(number, isMobile());
+			rip += routingTable.get(netID).getRIP(number);
 		return rip;
 	}
 	
@@ -160,6 +160,10 @@ public class Device {
 		{
 			TableEntry t = new TableEntry(entry);
 			int netID = t.getNetID();
+			
+			if(t.isMobile() && this.isMobile())
+				return;
+			t.setMobile(this.isMobile());
 			
 			if(netID == number)
 				continue;
@@ -205,7 +209,7 @@ public class Device {
 	{
 		if(!routingTable.containsKey(d.getNumber()))
 		{
-			routingTable.put(d.getNumber(), new TableEntry(d.getNumber(), 1, d.getNumber()));
+			routingTable.put(d.getNumber(), new TableEntry(d.getNumber(), 1, d.getNumber(), this.isMobile()));
 		}else
 		{
 			routingTable.get(d.getNumber()).keepAlive();
