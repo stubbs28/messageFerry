@@ -24,6 +24,7 @@ public class Device {
 	protected Map<Integer, TableEntry> routingTable;
 	protected ArrayList<Message> sendQueue;
 	protected ArrayList<Message> resendQueue;
+	protected Map<Integer, Integer> recvTracker;
 	
 	public Device(int number, Point location)
 	{
@@ -36,7 +37,8 @@ public class Device {
 		sendQueue = new ArrayList<Message>();
 		resendQueue = new ArrayList<Message>();
 		routingTable = new HashMap<Integer, TableEntry>();
-		routingTable.put(number, new TableEntry(number, 0, number, isMobile()));
+		routingTable.put(number, new TableEntry(number, 0, number));
+		recvTracker = new HashMap<Integer, Integer>();
 	}
 	
 	
@@ -161,10 +163,6 @@ public class Device {
 			TableEntry t = new TableEntry(entry);
 			int netID = t.getNetID();
 			
-			if(t.isMobile() && this.isMobile())
-				return;
-			t.setMobile(this.isMobile());
-			
 			if(netID == number)
 				continue;
 			
@@ -207,9 +205,12 @@ public class Device {
 	
 	private void connect(Device d) 
 	{
+		if(d.isMobile() && this.isMobile())
+			return;
+		
 		if(!routingTable.containsKey(d.getNumber()))
 		{
-			routingTable.put(d.getNumber(), new TableEntry(d.getNumber(), 1, d.getNumber(), this.isMobile()));
+			routingTable.put(d.getNumber(), new TableEntry(d.getNumber(), 1, d.getNumber()));
 		}else
 		{
 			routingTable.get(d.getNumber()).keepAlive();
@@ -285,7 +286,13 @@ public class Device {
 				updateRT(message);
 			} else if(message.getType().equals(Message.SYN))
 			{
-				processMessage(message);
+				if(!recvTracker.containsKey(message.getSrc()))
+					recvTracker.put(message.getSrc(), -1);
+				if(message.getSeq() > recvTracker.get(message.getSrc()))
+				{
+					recvTracker.put(message.getSrc(), message.getSeq());
+					processMessage(message);
+				}
 				Message ack = new Message(Message.ACK, Message.TTL, number, message.getSrc(), 0, message.getSeq(), "ACK");
 				sendQueue.add(ack);
 			}
@@ -294,7 +301,6 @@ public class Device {
 
 	private void processMessage(Message message) {
 		displayMessage = "Recieved: " + message.getContent();
-		//System.out.println("Device " + number + " recieved: " + message.getContent());
 		clearCount = CLEAR_TIMER;
 	}
 	

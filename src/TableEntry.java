@@ -6,10 +6,9 @@ public class TableEntry {
 	private int netID;
 	private int cost;
 	private int nextHop;
-	private boolean isMobile;
 	private int ttl;
 	
-	public TableEntry(int netID, int cost, int nextHop, boolean isMobile)
+	public TableEntry(int netID, int cost, int nextHop)
 	{
 		this.netID = netID;
 		this.cost = cost;
@@ -62,11 +61,6 @@ public class TableEntry {
 		this.nextHop = nextHop;
 	}
 	
-	public void setMobile(boolean isMobile)
-	{
-		this.isMobile = isMobile;
-	}
-	
 	public int getNetID()
 	{
 		return netID;
@@ -82,14 +76,9 @@ public class TableEntry {
 		return nextHop;
 	}
 	
-	public boolean isMobile()
-	{
-		return isMobile;
-	}
-	
 	public String getRIP(int number)
 	{
-		String str = netID + ", " + (cost + 1) + ", " + number  + ", " + ttl + ", " + isMobile + "\n";
+		String str = netID + ", " + (cost + 1) + ", " + number  + ", " + ttl + "\n";
 		return str;
 	}
 	
@@ -105,6 +94,5 @@ public class TableEntry {
 		cost = Integer.parseInt(strs[1]);
 		nextHop = Integer.parseInt(strs[2]);
 		ttl = Integer.parseInt(strs[3]);
-		isMobile = Boolean.parseBoolean(strs[4]);
 	}
 }
