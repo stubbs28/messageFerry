@@ -160,22 +160,25 @@ public class Device {
 		String[] entries = rip.getContent().split("\n");
 		for(String entry: entries)
 		{
-			TableEntry t = new TableEntry(entry);
-			int netID = t.getNetID();
+			TableEntry newEntry = new TableEntry(entry);
+			int netID = newEntry.getNetID();
 			
 			if(netID == number)
 				continue;
 			
 			if(routingTable.containsKey(netID))
 			{
-				if(routingTable.get(netID).getCost() >= t.getCost())
+				if(routingTable.get(netID).getTTL() < newEntry.getTTL() )
 				{
-					routingTable.put(netID, t);
+					routingTable.put(netID, newEntry);
+				}else if(routingTable.get(netID).getCost() >= newEntry.getCost())
+				{
+					routingTable.put(netID, newEntry);
 				}
 			} 
 			else
 			{
-				routingTable.put(netID, t);
+				routingTable.put(netID, newEntry);
 			}
 		}
 	}

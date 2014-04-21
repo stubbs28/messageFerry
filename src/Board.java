@@ -88,11 +88,12 @@ public class Board extends JPanel implements MouseListener, KeyListener
 			g2d.fillOval((dst.x * G_WIDTH) - 5, (dst.y * G_HEIGHT) - 5, G_WIDTH + 10, G_HEIGHT + 10);
 		}
 		
+		
 		g2d.setColor(Color.GRAY);
 		for(int w = 0; w < B_WIDTH / G_WIDTH; w++)
 			g2d.drawLine(w * G_WIDTH, 0, w * G_WIDTH, B_HEIGHT);
 		for(int h = 0; h < B_HEIGHT / G_HEIGHT; h++)
-			g2d.drawLine(0, h * G_WIDTH, B_WIDTH, h * G_WIDTH);
+			g2d.drawLine(0, h * G_WIDTH, B_WIDTH, h * G_WIDTH);	
 		
 		if(drawPaths)
 		{
